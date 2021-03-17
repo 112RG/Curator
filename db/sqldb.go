@@ -6,9 +6,7 @@ import (
 	"os"
 )
 
-var SQLConn *sql.DB
-
-func setupDatabase() {
+func setupDatabase() *sql.DB {
 	var err error
 	if _, err := os.Stat("./curator.db"); os.IsNotExist(err) {
 		log.Println("Creating sqlite-database.db...")
@@ -20,10 +18,11 @@ func setupDatabase() {
 		log.Println("sqlite-database.db created")
 	}
 
-	SQLConn, err = sql.Open("sqlite3", "./curator.db")
+	db, err := sql.Open("sqlite3", "./curator.db")
 	if err != nil {
-		log.Fatal(err.Error())
+		panic(err.Error())
 	}
-	defer SQLConn.Close()
+
+	return db
 
 }
