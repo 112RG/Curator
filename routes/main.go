@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/112RG/Curator/repositories"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +17,8 @@ var (
 
 // Run will start the server
 func Run() {
+	db := connection.setupDatabase()
+	userRepo := repositories.NewUserRepo(db)
 	filepath.Walk("./views", func(path string, info os.FileInfo, err error) error {
 		if strings.HasSuffix(path, ".html") {
 			files = append(files, path)
@@ -28,6 +32,7 @@ func Run() {
 }
 
 func getRoutes() {
+	router.Use()
 	api := router.Group("/api")
 	addPasteRoutes(api)
 
