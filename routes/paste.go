@@ -10,15 +10,15 @@ import (
 func addPasteRoutes(rg *gin.RouterGroup) {
 	paste := rg.Group("/paste")
 
-	paste.GET("/", func(c *gin.Context) {
+	paste.GET("/get/:pId", func(c *gin.Context) {
 		u := &models.Paste{ID: "test", Content: "test"}
 		pasteRepostiroy.CreatePaste(u)
 		c.JSON(http.StatusOK, "users")
 	})
-	paste.PUT("/", func(c *gin.Context) {
+	paste.PUT("/create", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "users comments")
 	})
-	paste.DELETE("/", func(c *gin.Context) {
+	paste.DELETE("/delete", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "users pictures")
 	})
 }

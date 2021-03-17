@@ -18,7 +18,8 @@ func addWebRoutes(rg *gin.RouterGroup) {
 		pasteId := c.Param("pId")
 		paste, _ := pasteRepostiroy.FindByID(pasteId)
 		c.HTML(http.StatusOK, "index.html", map[string]interface{}{
-			"now": paste,
+			"id":      paste.ID,
+			"content": paste.Content,
 		})
 	})
 }
