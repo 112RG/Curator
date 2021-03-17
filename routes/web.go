@@ -14,4 +14,11 @@ func addWebRoutes(rg *gin.RouterGroup) {
 			"now": "test",
 		})
 	})
+	web.GET("/p/:pId", func(c *gin.Context) {
+		pasteId := c.Param("pId")
+		paste, _ := pasteRepostiroy.FindByID(pasteId)
+		c.HTML(http.StatusOK, "index.html", map[string]interface{}{
+			"now": paste,
+		})
+	})
 }
