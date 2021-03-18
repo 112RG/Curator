@@ -12,7 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/rs/zerolog/pkgerrors"
 	"github.com/thinkerou/favicon"
 )
 
@@ -24,8 +23,6 @@ var (
 
 // Run will start the server
 func Run() {
-	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
-
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	if gin.IsDebugging() {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
