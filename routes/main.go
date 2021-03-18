@@ -7,20 +7,21 @@ import (
 
 	"github.com/112RG/Curator/db"
 	"github.com/112RG/Curator/repositories"
-
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
+	"github.com/thinkerou/favicon"
 )
 
 var (
 	router          = gin.Default()
 	files           []string
-	pasteRepostiroy *repositories.PasteRepo
+	pasteRepository *repositories.PasteRepo
 )
 
 // Run will start the server
 func Run() {
 	db := db.ConnectDB()
-	pasteRepostiroy = repositories.NewPasteRepo(db)
+	pasteRepository = repositories.NewPasteRepo(db)
 
 	filepath.Walk("./views", func(path string, info os.FileInfo, err error) error {
 		if strings.HasSuffix(path, ".html") {
@@ -29,7 +30,8 @@ func Run() {
 		return nil
 	})
 	router.LoadHTMLFiles(files...)
-
+	router.Use(static.Serve("/assets", static.LocalFile("./assets", false)))
+	router.Use(favicon.New("./favicon.ico"))
 	getRoutes()
 	router.Run(":5000")
 }

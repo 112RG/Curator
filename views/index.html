@@ -1,6 +1,14 @@
 <html>
+  <link rel="stylesheet" href="/assets/style.css"type="text/css">
+  <script type="text/javascript" src="/assets/main.js"></script>
   <body>
-    <p>ID: {{.id}}</p>
-    <p>Content: {{.content}}</p>
+    <div class="main">
+      <form id="upload" action="/api/paste" method="POST">
+        <textarea name="raw" id="raw" spellcheck="false" placeholder="Enter code to paste."></textarea>
+        <div class="bar">
+          <button type="submit">Paste!</button>
+        </div>
+      </form>
+    </div>
   </body>
 </html>

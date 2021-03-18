@@ -36,9 +36,9 @@ func (r *PasteRepo) CreatePaste(paste *models.Paste) error {
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
-	_, err = statement.Exec("test", "test")
+	_, err = statement.Exec(paste.ID, paste.Content)
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
-	return nil
+	return err
 }

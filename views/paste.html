@@ -1,0 +1,20 @@
+<html>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/styles/rainbow.min.css"type="text/css">
+  <link rel="stylesheet" href="/assets/style.css"type="text/css">
+  <body>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.6.0/highlight.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlightjs-line-numbers.js/2.6.0/highlightjs-line-numbers.min.js"></script>
+
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initLineNumbersOnLoad();</script>
+    <div class="main">
+      <div class="bar">
+        <a>This paste expires on {{.date}} | </a>
+        <button>Remove now</button>
+      </div>
+      <div class="paste">
+        <pre><code style="font-size:16;"class="code highlight">{{.content}}</code></pre>
+      </div>
+    </div>
+  </body>
+</html>
