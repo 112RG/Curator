@@ -36,11 +36,11 @@ func createTable(db *sql.DB) {
 		"content" TEXT		
 	  );` // SQL Statement for Create Table
 
-	log.Println("Create student table...")
+	log.Println("Create paste table...")
 	statement, err := db.Prepare(createStudentTableSQL) // Prepare SQL Statement
 	if err != nil {
 		log.Fatal(err.Error())
 	}
 	statement.Exec() // Execute SQL Statements
-	log.Println("student table created")
+	log.Println("paste table created")
 }
