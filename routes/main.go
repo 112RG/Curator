@@ -31,7 +31,7 @@ func Run() {
 	})
 	router.LoadHTMLFiles(files...)
 	router.Use(static.Serve("/assets", static.LocalFile("./assets", false)))
-	router.Use(favicon.New("./favicon.ico"))
+	router.Use(favicon.New("./favicon.png"))
 	getRoutes()
 	router.Run(":5000")
 }
