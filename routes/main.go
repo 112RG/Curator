@@ -1,4 +1,4 @@
-package routes
+package main
 
 import (
 	"os"
@@ -12,7 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
-	"github.com/thinkerou/favicon"
 )
 
 var (
@@ -22,7 +21,7 @@ var (
 )
 
 // Run will start the server
-func Run() {
+func Build() *gin.Engine {
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	if gin.IsDebugging() {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
@@ -45,10 +44,10 @@ func Run() {
 	})
 	router.LoadHTMLFiles(files...)
 	router.Use(logger.SetLogger())
-	router.Use(favicon.New("./favicon.png"))
+	//router.Use(favicon.New("./favicon.png"))
 	router.Use(static.Serve("/assets", static.LocalFile("./assets", false)))
 	getRoutes()
-	router.Run(":5000")
+	return router
 }
 
 func getRoutes() {

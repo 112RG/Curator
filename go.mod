@@ -11,6 +11,7 @@ require (
 	github.com/matoous/go-nanoid/v2 v2.0.0
 	github.com/mattn/go-sqlite3 v1.14.6
 	github.com/rs/zerolog v1.20.0
+	github.com/stretchr/testify v1.6.1
 	github.com/thinkerou/favicon v0.1.0
 	github.com/valyala/fasthttp v1.22.0
 )

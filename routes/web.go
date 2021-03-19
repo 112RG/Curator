@@ -12,6 +12,7 @@ func addWebRoutes(rg *gin.RouterGroup) {
 	web.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", map[string]interface{}{})
 	})
+
 	web.GET("/:pId", func(c *gin.Context) {
 		pasteId := c.Param("pId")
 		if len(pasteId) > 0 && pasteId != "favicon.ico" {
@@ -33,5 +34,4 @@ func addWebRoutes(rg *gin.RouterGroup) {
 		paste, _ := pasteRepository.FindByID(pasteId)
 		c.String(200, paste.Content)
 	})
-
 }
