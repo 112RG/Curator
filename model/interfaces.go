@@ -18,13 +18,13 @@ type Paste struct {
 }
 
 type PasteService interface {
-	Get(ctx context.Context, ID string) (Paste, error)
-	//Delete(ID string) error
+	Get(ctx context.Context, Id string) (Paste, error)
+	Delete(ctx context.Context, Id string) error
 	Create(ctx context.Context, paste Paste) error
 }
 
 type PasteRepository interface {
-	FindByID(ctx context.Context, ID string) (Paste, error)
-	DeleteByID(ID string) error
+	FindByID(ctx context.Context, Id string) (Paste, error)
+	DeleteByID(ctx context.Context, Id string) error
 	CreatePaste(ctx context.Context, paste Paste) error
 }

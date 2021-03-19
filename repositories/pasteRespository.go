@@ -43,14 +43,14 @@ func (r *pasteRepository) CreatePaste(ctx context.Context, paste model.Paste) er
 		return err
 	}
 }
-func (r *pasteRepository) DeleteByID(ID string) error {
-	statement, err := r.DB.Prepare(`DELETE FROM pastes WHERE fId=?`)
+func (r *pasteRepository) DeleteByID(ctx context.Context, Id string) error {
+	statement, err := r.DB.Prepare(`DELETE FROM pastes WHERE Id=?`)
 	if err != nil {
-		log.Error().Err(err).Msgf("Failed to delete paste ID: %s", ID)
+		log.Error().Err(err).Msgf("Failed to delete paste ID: %s", Id)
 		return err
 	} else {
-		log.Info().Msgf("Deleted paste ID: %s", ID)
-		_, err = statement.Exec(ID)
+		log.Info().Msgf("Deleted paste ID: %s", Id)
+		_, err = statement.Exec(Id)
 		return err
 	}
 }

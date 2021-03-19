@@ -39,6 +39,7 @@ func (h *Handler) GetPasteRaw(c *gin.Context) {
 		c.String(200, paste.Content)
 	}
 }
+
 func (h *Handler) GetIndex(c *gin.Context) {
 	c.HTML(http.StatusOK, "index.html", map[string]interface{}{})
 }

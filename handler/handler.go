@@ -35,6 +35,8 @@ func NewHandler(c *Config) {
 	a := c.R.Group("/api")
 	p := a.Group("/paste")
 	p.POST("/", h.CreatePaste)
+	p.DELETE("/:pId", h.DeletePaste)
+
 	/* 	if gin.Mode() != gin.TestMode {
 	   		g.Use(middleware.Timeout(c.TimeoutDuration, apperrors.NewServiceUnavailable()))
 	   		g.GET("/me", middleware.AuthUser(h.TokenService), h.Me)

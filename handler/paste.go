@@ -20,3 +20,18 @@ func (h *Handler) CreatePaste(c *gin.Context) {
 		}
 	}
 }
+
+func (h *Handler) DeletePaste(c *gin.Context) {
+	pasteId := c.Param("pId")
+
+	if len(pasteId) > 0 {
+		err := h.PasteService.Delete(c, pasteId)
+
+		if err != nil {
+			log.Error().Err(err).Msgf("Failed to create paste ID: %s", pasteId)
+			c.AbortWithStatusJSON(400, "Failed to delete paste")
+		} else {
+			c.JSON(200, "Deleted paste")
+		}
+	}
+}
