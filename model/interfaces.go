@@ -18,7 +18,7 @@ type Paste struct {
 }
 
 type PasteService interface {
-	Get(ctx context.Context, ID string) error
+	Get(ctx context.Context) error
 	//Delete(ID string) error
 	//CreatePaste(p *Paste) error
 }

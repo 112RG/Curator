@@ -7,23 +7,21 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// UserRepo implements models.UserRepository
-type PasteRepo struct {
-	db *sql.DB
+type pasteRepository struct {
+	DB *sql.DB
 }
 
 // NewUserRepo ..
-func NewPasteRepo(db *sql.DB) *PasteRepo {
-	return &PasteRepo{
-		db: db,
+func NewPasteRepository(db *sql.DB) model.PasteRepository {
+	return &pasteRepository{
+		DB: db,
 	}
 }
 
 // FindByID ..
-func (r *PasteRepo) FindByID(Id string) (u model.Paste, err error) {
-	var p model.Paste
+func (r *pasteRepository) FindByID(Id string) (p *model.Paste, err error) {
 	var mid sql.NullInt64
-	err = r.db.QueryRow("SELECT * FROM pastes WHERE Id=?", Id).Scan(&mid, &p.Id, &p.Expiry, &p.Title, &p.TimeCreated, &p.CreatedIp, &p.Owner, &p.Content)
+	err = r.DB.QueryRow("SELECT * FROM pastes WHERE Id=?", Id).Scan(&mid, &p.Id, &p.Expiry, &p.Title, &p.TimeCreated, &p.CreatedIp, &p.Owner, &p.Content)
 	if err != nil {
 		log.Error().Err(err).Msgf("Unable to find paste ID: %s", Id)
 		return p, err

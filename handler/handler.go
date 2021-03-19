@@ -27,7 +27,7 @@ func NewHandler(c *Config) {
 
 	// Create an account group
 	g := c.R.Group("/")
-	g.GET("/:id", h.PasteService.Get)
+	g.GET("/:id", h.Get)
 
 	/* 	if gin.Mode() != gin.TestMode {
 	   		g.Use(middleware.Timeout(c.TimeoutDuration, apperrors.NewServiceUnavailable()))
