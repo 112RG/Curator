@@ -19,7 +19,9 @@ func addWebRoutes(rg *gin.RouterGroup) {
 			paste, err := pasteRepository.FindByID(pasteId)
 			if err != nil {
 				log.Error().Err(err).Msgf("Failed to get paste %s", pasteId)
-				c.AbortWithStatusJSON(400, gin.H{"status": false, "message": err.Error()})
+				c.HTML(http.StatusNotFound, "error.html", map[string]interface{}{
+					"message": "Unable to find paste",
+				})
 			} else {
 				c.HTML(http.StatusOK, "paste.html", map[string]interface{}{
 					"id":      paste.ID,

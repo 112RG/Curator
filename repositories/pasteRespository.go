@@ -24,7 +24,13 @@ func (r *PasteRepo) FindByID(ID string) (u models.Paste, err error) {
 	var p models.Paste
 	var mid sql.NullInt32
 	err = r.db.QueryRow("SELECT * FROM pastes WHERE fId=?", ID).Scan(&mid, &p.ID, &p.Content)
-	return p, err
+	if err != nil {
+		log.Error().Err(err).Msgf("Unable to find paste ID: %s", ID)
+		return p, err
+	} else {
+		log.Debug().Msgf("Got paste ID: %s", ID)
+		return p, err
+	}
 }
 
 // Save ..
@@ -35,6 +41,18 @@ func (r *PasteRepo) CreatePaste(paste *models.Paste) error {
 		return err
 	} else {
 		_, err = statement.Exec(paste.ID, paste.Content)
+		return err
 	}
-	return err
+}
+
+func (r *PasteRepo) DeletePasteByID(ID string) error {
+	statement, err := r.db.Prepare(`DELETE FROM pastes WHERE fId=?`)
+	if err != nil {
+		log.Error().Err(err).Msgf("Failed to delete paste ID: %s", ID)
+		return err
+	} else {
+		log.Info().Msgf("Deleted paste ID: %s", ID)
+		_, err = statement.Exec(ID)
+		return err
+	}
 }

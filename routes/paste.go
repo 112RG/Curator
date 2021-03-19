@@ -28,6 +28,11 @@ func addPasteRoutes(rg *gin.RouterGroup) {
 
 	})
 	paste.DELETE("/:pId", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "users pictures")
+		err := pasteRepository.DeletePasteByID(c.Param("pId"))
+		if err != nil {
+			c.AbortWithStatusJSON(400, err)
+		} else {
+			c.JSON(http.StatusOK, "Paste deleted")
+		}
 	})
 }

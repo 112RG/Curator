@@ -9,5 +9,6 @@ type Paste struct {
 // UserRepository ..
 type PasteRepository interface {
 	FindByID(ID string) (*Paste, error)
+	DeleteByID(ID string) error
 	CreatePaste(paste *Paste) error
 }
