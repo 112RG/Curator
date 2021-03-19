@@ -1,17 +1,18 @@
 package routes
 
 import (
+	"database/sql"
 	"os"
 	"path/filepath"
 	"strings"
 
-	"github.com/112RG/Curator/db"
 	"github.com/112RG/Curator/repositories"
 	"github.com/gin-contrib/logger"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
+	"github.com/thinkerou/favicon"
 )
 
 var (
@@ -21,7 +22,9 @@ var (
 )
 
 // Run will start the server
-func Build() *gin.Engine {
+func Build(db *sql.DB) *gin.Engine {
+	pasteRepository = repositories.NewPasteRepo(db)
+
 	zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	if gin.IsDebugging() {
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
@@ -33,8 +36,6 @@ func Build() *gin.Engine {
 			NoColor: false,
 		},
 	)
-	db := db.ConnectDB()
-	pasteRepository = repositories.NewPasteRepo(db)
 
 	filepath.Walk("./views", func(path string, info os.FileInfo, err error) error {
 		if strings.HasSuffix(path, ".html") {
@@ -42,10 +43,12 @@ func Build() *gin.Engine {
 		}
 		return nil
 	})
+
 	router.LoadHTMLFiles(files...)
 	router.Use(logger.SetLogger())
-	//router.Use(favicon.New("./favicon.png"))
+	router.Use(favicon.New("./favicon.png"))
 	router.Use(static.Serve("/assets", static.LocalFile("./assets", false)))
+
 	getRoutes()
 	return router
 }
