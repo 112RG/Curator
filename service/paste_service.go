@@ -19,6 +19,11 @@ func NewPasteService(c *USConfig) model.PasteService {
 	}
 }
 
-func (h *pasteService) Get(ctx context.Context) error {
-	return nil
+func (s *pasteService) Get(ctx context.Context, ID string) (model.Paste, error) {
+	p, err := s.PasteRepository.FindByID(ctx, ID)
+	return p, err
+}
+func (s *pasteService) Create(ctx context.Context, paste model.Paste) error {
+	err := s.PasteRepository.CreatePaste(ctx, paste)
+	return err
 }

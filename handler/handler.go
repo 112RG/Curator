@@ -26,9 +26,15 @@ func NewHandler(c *Config) {
 	} // currently has no properties
 
 	// Create an account group
-	g := c.R.Group("/")
-	g.GET("/:id", h.Get)
+	i := c.R.Group("/")
+	i.GET("/:pId", h.GetPaste)
+	i.GET("/:pId/raw", h.GetPasteRaw)
 
+	i.GET("/", h.GetIndex)
+
+	a := c.R.Group("/api")
+	p := a.Group("/paste")
+	p.POST("/", h.CreatePaste)
 	/* 	if gin.Mode() != gin.TestMode {
 	   		g.Use(middleware.Timeout(c.TimeoutDuration, apperrors.NewServiceUnavailable()))
 	   		g.GET("/me", middleware.AuthUser(h.TokenService), h.Me)
