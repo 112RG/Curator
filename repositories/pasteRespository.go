@@ -3,7 +3,7 @@ package repositories
 import (
 	"database/sql"
 
-	"github.com/112RG/Curator/models"
+	"github.com/112RG/Curator/model"
 	"github.com/rs/zerolog/log"
 )
 
@@ -20,31 +20,31 @@ func NewPasteRepo(db *sql.DB) *PasteRepo {
 }
 
 // FindByID ..
-func (r *PasteRepo) FindByID(ID string) (u models.Paste, err error) {
-	var p models.Paste
-	var mid sql.NullInt32
-	err = r.db.QueryRow("SELECT * FROM pastes WHERE fId=?", ID).Scan(&mid, &p.ID, &p.Content)
+func (r *PasteRepo) FindByID(Id string) (u model.Paste, err error) {
+	var p model.Paste
+	var mid sql.NullInt64
+	err = r.db.QueryRow("SELECT * FROM pastes WHERE Id=?", Id).Scan(&mid, &p.Id, &p.Expiry, &p.Title, &p.TimeCreated, &p.CreatedIp, &p.Owner, &p.Content)
 	if err != nil {
-		log.Error().Err(err).Msgf("Unable to find paste ID: %s", ID)
+		log.Error().Err(err).Msgf("Unable to find paste ID: %s", Id)
 		return p, err
 	} else {
-		log.Debug().Msgf("Got paste ID: %s", ID)
+		log.Debug().Msgf("Got paste ID: %s", Id)
 		return p, err
 	}
 }
 
 // Save ..
-func (r *PasteRepo) CreatePaste(paste *models.Paste) error {
-	statement, err := r.db.Prepare(`INSERT INTO pastes(fId, content) VALUES (?, ?)`)
+/* func (r *PasteRepo) CreatePaste(paste *model.Paste) error {
+	statement, err := r.db.Prepare(`INSERT INTO pastes(Id, Content, TimeCreated, CreatedIp) VALUES (?, ?, ?, ?)`)
 	if err != nil {
-		log.Error().Err(err).Msgf("Failed to prepare SQL statement for ID: %s CONTENT: %s", paste.ID, paste.Content)
+		log.Error().Err(err).Msgf("Failed to prepare SQL statement for ID: %s CONTENT: %s", paste.Id, paste.Content)
 		return err
 	} else {
-		_, err = statement.Exec(paste.ID, paste.Content)
+		_, err = statement.Exec(paste.Id, paste.Content, paste.TimeCreated, paste.CreatedIp)
 		return err
 	}
-}
-
+} */
+/*
 func (r *PasteRepo) DeletePasteByID(ID string) error {
 	statement, err := r.db.Prepare(`DELETE FROM pastes WHERE fId=?`)
 	if err != nil {
@@ -56,3 +56,4 @@ func (r *PasteRepo) DeletePasteByID(ID string) error {
 		return err
 	}
 }
+*/

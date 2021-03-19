@@ -1,13 +1,12 @@
 package main
 
-import (
-	"github.com/112RG/Curator/db"
-	"github.com/112RG/Curator/routes"
-)
+import "log"
 
 func main() {
-	// Build reqs for router
-	db := db.ConnectDB()
-	router := routes.Build(db)
+	log.Println("Starting")
+	router, err := Inject()
+	if err != nil {
+		log.Fatalf("Failure to inject data sources: %v\n", err)
+	}
 	router.Run(":5000")
 }

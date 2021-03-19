@@ -31,9 +31,14 @@ func ConnectDB() *sql.DB {
 }
 func createTable(db *sql.DB) {
 	createStudentTableSQL := `CREATE TABLE IF NOT EXISTS pastes (
-		"idPaste" integer NOT NULL PRIMARY KEY AUTOINCREMENT,		
-		"fId" TEXT,
-		"content" TEXT		
+		"_id" integer NOT NULL PRIMARY KEY AUTOINCREMENT,
+		"Id" TEXT,
+		"Expiry" INT,
+		"Title" TEXT,
+		"TimeCreated" TIMESTAMP,
+		"CreatedIp" TEXT,
+		"Owner" STRING,
+		"Content" TEXT
 	  );` // SQL Statement for Create Table
 
 	log.Println("Create paste table...")

@@ -2,6 +2,7 @@ package routes
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/112RG/Curator/models"
 	"github.com/gin-gonic/gin"
@@ -16,10 +17,10 @@ func addPasteRoutes(rg *gin.RouterGroup) {
 		c.Header("Content-Type", "text/plain; charset=utf-8")
 		if len(c.Request.FormValue("raw")) > 0 {
 			id, _ := gonanoid.New(5)
-			paste := &models.Paste{ID: id, Content: c.Request.FormValue("raw")}
+			paste := &models.Paste{Id: id, Content: c.Request.FormValue("raw"), TimeCreated: time.Now(), CreatedIp: c.Request.RemoteAddr}
 			err := pasteRepository.CreatePaste(paste)
 			if err != nil {
-				log.Error().Err(err).Msgf("Failed to create paste ID: %s CONTENT: %s", paste.ID, paste.Content)
+				log.Error().Err(err).Msgf("Failed to create paste ID: %s CONTENT: %s", paste.Id, paste.Content)
 				c.AbortWithStatusJSON(400, err)
 			} else {
 				c.Redirect(302, "/"+id)

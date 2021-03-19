@@ -24,8 +24,10 @@ func addWebRoutes(rg *gin.RouterGroup) {
 				})
 			} else {
 				c.HTML(http.StatusOK, "paste.html", map[string]interface{}{
-					"id":      paste.ID,
+					"id":      paste.Id,
 					"content": paste.Content,
+					"date":    paste.TimeCreated,
+					"ip":      paste.CreatedIp,
 				})
 			}
 		}
