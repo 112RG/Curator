@@ -12,14 +12,12 @@ type pasteRepository struct {
 	DB *sql.DB
 }
 
-// NewUserRepo ..
 func NewPasteRepository(db *sql.DB) model.PasteRepository {
 	return &pasteRepository{
 		DB: db,
 	}
 }
 
-// FindByID ..
 func (r *pasteRepository) FindByID(ctx context.Context, Id string) (p model.Paste, err error) {
 	var mid sql.NullInt64
 	err = r.DB.QueryRowContext(ctx, "SELECT * FROM pastes WHERE Id=?", Id).Scan(&mid, &p.Id, &p.Expiry, &p.Title, &p.TimeCreated, &p.CreatedIp, &p.Owner, &p.Content)
@@ -32,7 +30,6 @@ func (r *pasteRepository) FindByID(ctx context.Context, Id string) (p model.Past
 	}
 }
 
-// Save ..
 func (r *pasteRepository) CreatePaste(ctx context.Context, paste model.Paste) error {
 	statement, err := r.DB.PrepareContext(ctx, `INSERT INTO pastes(Id, Content, TimeCreated, CreatedIp) VALUES (?, ?, ?, ?)`)
 	if err != nil {
