@@ -31,3 +31,7 @@ func (s *pasteService) Delete(ctx context.Context, Id string) error {
 	err := s.PasteRepository.DeleteByID(ctx, Id)
 	return err
 }
+func (s *pasteService) GetOwnerPastes(ctx context.Context, Owner string) ([]*model.Paste, error) {
+	pastes, err := s.PasteRepository.FindByOwner(ctx, Owner)
+	return pastes, err
+}

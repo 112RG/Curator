@@ -66,3 +66,7 @@ button:hover {
   color: var(--color1);
   background: var(--color3);
 }
+
+.var {
+  color: var(--color3) !important
+}

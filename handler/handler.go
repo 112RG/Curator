@@ -29,6 +29,7 @@ func NewHandler(c *Config) {
 	i := c.R.Group("/")
 	i.GET("/:pId", h.GetPaste)
 	i.GET("/:pId/raw", h.GetPasteRaw)
+	i.GET("/:pId/owners", h.TestPaste)
 
 	i.GET("/", h.GetIndex)
 
