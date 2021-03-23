@@ -1,0 +1,72 @@
+:root {
+  --color0: #333;
+  --color1: #222;
+  --color2: #eee;
+  --color3: #d7277f;
+    font-family: sans-serif;
+    font-size: 13px;
+}
+
+body {
+  background-color: var(--color0);
+  margin: 2rem;
+  min-width: 500px;
+  height: auto;
+  color: #eee;
+}
+
+textarea {
+  color: var(--color2);
+  background-color: #222;
+  border: none;
+  resize: vertical;
+  width: 100%;
+  min-height: 25rem;
+  padding: .5rem;
+}
+textarea:focus{
+  outline: none;
+  border: .0625rem solid var(--color3) !important;
+}
+
+pre {
+  overflow: auto;
+  background: #23241f;
+}
+.bar {
+  opacity: .5;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  background-color: var(--color1);
+  width: 100%;
+}
+.hljs {
+  background-color: var(--color1) !important;
+}
+.bar:hover{
+  opacity: 1;
+}
+input {
+  background: var(--color1);
+  outline: none;
+  color: var(--color2);
+  border: .0625rem solid var(--color3);
+}
+button {
+  box-sizing: border-box;
+  border: .0625rem solid var(--color3);
+  padding: .3rem 1.4rem;
+  margin: 0 .2rem;
+  background: var(--color1);
+  color: var(--color2);
+  cursor: pointer;
+  text-align: center;
+}
+button:hover {
+  color: var(--color1);
+  background: var(--color3);
+}
+
+.var {
+  color: var(--color3) !important
+}

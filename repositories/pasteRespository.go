@@ -35,11 +35,10 @@ func (r *pasteRepository) CreatePaste(ctx context.Context, paste model.Paste) er
 	statement, err := r.DB.PrepareContext(ctx, `INSERT INTO pastes(Id, Content, TimeCreated, CreatedIp, Title, Owner) VALUES (?, ?, ?, ?, ?, ?)`)
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to prepare SQL statement for ID: %s CONTENT: %s", paste.Id, paste.Content)
-		return err
 	} else {
 		_, err = statement.ExecContext(ctx, paste.Id, paste.Content, paste.TimeCreated, paste.CreatedIp, paste.Title, paste.Owner)
-		return err
 	}
+	return err
 }
 func (r *pasteRepository) DeleteByID(ctx context.Context, Id string) error {
 	statement, err := r.DB.Prepare(`DELETE FROM pastes WHERE Id=?`)

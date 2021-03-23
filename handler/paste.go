@@ -1,50 +1,73 @@
+// Package classification Paste API.
+//
+// A simple clean Paste API
+//
+// Terms Of Service:
+//
+//     Schemes: https
+//     Host: localhost:5000
+//     Version: 0.0.1
+//     Contact: Nobdy<nobody@nobody.com>
+//
+//
+// swagger:meta
 package handler
 
 import (
+	"encoding/json"
+	"net/http"
+
 	"github.com/112RG/Curator/model"
-	"github.com/gin-gonic/gin"
+	"github.com/gorilla/mux"
 	gonanoid "github.com/matoous/go-nanoid/v2"
 	"github.com/rs/zerolog/log"
 )
 
-func (h *Handler) CreatePaste(c *gin.Context) {
-	if len(c.Request.FormValue("raw")) > 0 {
+func (h *Handler) CreatePaste(w http.ResponseWriter, req *http.Request) {
+
+	if len(req.FormValue("raw")) > 0 {
 		id, _ := gonanoid.New(5)
-		paste := model.Paste{Id: id, Content: c.Request.FormValue("raw"), Title: c.Request.FormValue("title"), CreatedIp: c.ClientIP(), Owner: c.Request.FormValue("passcode")}
-		err := h.PasteService.Create(c, paste)
+		paste := model.Paste{Id: id, Content: req.FormValue("raw"), Title: req.FormValue("title"), CreatedIp: req.RemoteAddr, Owner: req.FormValue("passcode")}
+		err := h.PasteService.Create(req.Context(), paste)
 		if err != nil {
 			log.Error().Err(err).Msgf("Failed to create paste ID: %s CONTENT: %s", paste.Id, paste.Content)
-			c.AbortWithStatusJSON(400, err)
+			w.WriteHeader(http.StatusBadRequest)
 		} else {
-			c.Redirect(302, "/"+id)
+			log.Info().Msg("Sending paste")
+			w.Write([]byte(id))
 		}
 	}
 }
 
-func (h *Handler) DeletePaste(c *gin.Context) {
-	pasteId := c.Param("pId")
-
+func (h *Handler) DeletePaste(w http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	pasteId := vars["pId"]
 	if len(pasteId) > 0 {
-		err := h.PasteService.Delete(c, pasteId)
-
+		err := h.PasteService.Delete(req.Context(), pasteId)
 		if err != nil {
 			log.Error().Err(err).Msgf("Failed to create paste ID: %s", pasteId)
-			c.AbortWithStatusJSON(400, "Failed to delete paste")
+			w.WriteHeader(http.StatusBadRequest)
 		} else {
-			c.JSON(200, "Deleted paste")
+			w.Write([]byte("Deleted paste"))
 		}
 	}
 }
 
-func (h *Handler) TestPaste(c *gin.Context) {
-	pasteId := c.Param("pId")
+func (h *Handler) TestPaste(w http.ResponseWriter, req *http.Request) {
+	vars := mux.Vars(req)
+	ownerId := vars["OId"]
 
-	pastes, err := h.PasteService.GetOwnerPastes(c, pasteId)
+	pastes, err := h.PasteService.GetOwnerPastes(req.Context(), ownerId)
 	if err != nil {
-		log.Error().Err(err).Msgf("Failed to create paste ID: %s", pasteId)
-		c.AbortWithStatusJSON(400, "Failed to delete paste")
+		log.Error().Err(err).Msgf("Failed to get pastes for owner: %s", ownerId)
+		w.WriteHeader(http.StatusBadRequest)
 	} else {
-
-		c.JSON(200, pastes)
+		js, err := json.Marshal(pastes)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
 	}
 }
