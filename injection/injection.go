@@ -1,6 +1,7 @@
 package injection
 
 import (
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -11,10 +12,6 @@ import (
 	"github.com/112RG/Curator/repositories"
 	"github.com/112RG/Curator/service"
 	"github.com/gorilla/mux"
-)
-
-var (
-	files []string
 )
 
 func Inject() (*mux.Router, error) {
@@ -28,9 +25,6 @@ func Inject() (*mux.Router, error) {
 	router := mux.NewRouter()
 
 	templates := ParseTemplates()
-	//router.Use(logger.SetLogger())
-	//router.Use(favicon.New("./favicon.png"))
-	//router.Use(static.Serve("/static", static.LocalFile("./static", false)))
 	handler.NewHandler(&handler.Config{
 		R:               router,
 		PasteService:    pasteService,
@@ -46,7 +40,7 @@ func ParseTemplates() *template.Template {
 		if strings.Contains(path, ".html") {
 			_, err = templ.ParseFiles(path)
 			if err != nil {
-				//log.Println(err)
+				log.Println(err)
 			}
 		}
 
