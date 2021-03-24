@@ -19,7 +19,6 @@ func (h *Handler) GetPaste(w http.ResponseWriter, req *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 			h.TemplateService.ExecuteTemplate(w, "error.html", map[string]interface{}{})
 		} else {
-			log.Info().Msg(paste.Title.String)
 			h.TemplateService.ExecuteTemplate(w, "paste.html", map[string]interface{}{
 				"id":      paste.Id,
 				"content": paste.Content,

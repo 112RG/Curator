@@ -17,10 +17,6 @@ LABEL build_date=$BUILD_DATE
 ENV GIT_COMMIT=$GIT_COMMIT
 ENV BUILD_DATE=$BUILD_DATE
 
-#RUN wget https://github.com/libvips/libvips/releases/download/v${VIPS_VERSION}/vips-${VIPS_VERSION}.tar.gz
-
-# Exit 0 added because warnings tend to exit the build at a non-zero status
-#RUN tar -xf vips-${VIPS_VERSION}.tar.gz && cd vips-${VIPS_VERSION} && ./configure && make -j4 && make install && ldconfig; exit 0
 RUN go build -o curator .
 RUN apk del automake build-base
 ENV GIN_MODE=release
