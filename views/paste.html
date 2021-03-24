@@ -9,7 +9,7 @@
     <!-- <script>hljs.initLineNumbersOnLoad();</script> -->
     <div class="main">
       <div class="bar">
-        <a>Created: <a class="var">{{.date}}</a> {{if .title}} | Titled: <a class="var">{{.title}}</a> {{end}} </a>
+        <a>Created: <a class="var">{{.date}}</a> {{if ne .title ""}} | Titled: <a class="var">{{.title}}</a> {{end}} </a>
         <button>Remove now</button>
       </div>
       <div class="paste">

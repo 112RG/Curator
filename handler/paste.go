@@ -33,7 +33,6 @@ func (h *Handler) CreatePaste(w http.ResponseWriter, req *http.Request) {
 		Owner:       sql.NullString{String: req.FormValue("passcode")},
 		TimeCreated: time.Now(),
 		CreatedIp:   req.RemoteAddr}
-
 	err := h.PasteService.Create(req.Context(), paste)
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to create paste ID: %s CONTENT: %s", paste.Id, paste.Content)
