@@ -19,12 +19,13 @@ func (h *Handler) GetPaste(w http.ResponseWriter, req *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 			h.TemplateService.ExecuteTemplate(w, "error.html", map[string]interface{}{})
 		} else {
+			log.Info().Msg(paste.Content)
 			h.TemplateService.ExecuteTemplate(w, "paste.html", map[string]interface{}{
 				"id":      paste.Id,
 				"content": paste.Content,
 				"date":    paste.TimeCreated,
 				"ip":      paste.CreatedIp,
-				"title":   paste.Title,
+				"title":   paste.Title.String,
 			})
 		}
 	}

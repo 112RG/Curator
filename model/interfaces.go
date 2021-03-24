@@ -9,10 +9,10 @@ import (
 // User ..
 type Paste struct {
 	Expiry      sql.NullInt64
-	Title       string
+	Title       sql.NullString
 	TimeCreated time.Time
 	CreatedIp   string
-	Owner       string
+	Owner       sql.NullString
 	Content     string
 	Id          string
 }

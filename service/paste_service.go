@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"errors"
 
 	"github.com/112RG/Curator/model"
 )
@@ -24,8 +25,12 @@ func (s *pasteService) Get(ctx context.Context, Id string) (model.Paste, error) 
 	return p, err
 }
 func (s *pasteService) Create(ctx context.Context, paste model.Paste) error {
-	err := s.PasteRepository.CreatePaste(ctx, paste)
-	return err
+	if len(paste.Content) > 1 {
+		err := s.PasteRepository.CreatePaste(ctx, paste)
+		return err
+	} else {
+		return errors.New("failed to create paste, content empty")
+	}
 }
 func (s *pasteService) Delete(ctx context.Context, Id string) error {
 	err := s.PasteRepository.DeleteByID(ctx, Id)

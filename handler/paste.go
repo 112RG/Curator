@@ -14,8 +14,10 @@
 package handler
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/112RG/Curator/model"
 	"github.com/gorilla/mux"
@@ -24,18 +26,22 @@ import (
 )
 
 func (h *Handler) CreatePaste(w http.ResponseWriter, req *http.Request) {
+	id, _ := gonanoid.New(5)
+	paste := model.Paste{
+		Id: id, Content: req.FormValue("raw"),
+		Title:       sql.NullString{String: req.FormValue("title")},
+		Owner:       sql.NullString{String: req.FormValue("passcode")},
+		TimeCreated: time.Now(),
+		CreatedIp:   req.RemoteAddr}
 
-	if len(req.FormValue("raw")) > 0 {
-		id, _ := gonanoid.New(5)
-		paste := model.Paste{Id: id, Content: req.FormValue("raw"), Title: req.FormValue("title"), CreatedIp: req.RemoteAddr, Owner: req.FormValue("passcode")}
-		err := h.PasteService.Create(req.Context(), paste)
-		if err != nil {
-			log.Error().Err(err).Msgf("Failed to create paste ID: %s CONTENT: %s", paste.Id, paste.Content)
-			w.WriteHeader(http.StatusBadRequest)
-		} else {
-			log.Info().Msg("Sending paste")
-			w.Write([]byte(id))
-		}
+	err := h.PasteService.Create(req.Context(), paste)
+	if err != nil {
+		log.Error().Err(err).Msgf("Failed to create paste ID: %s CONTENT: %s", paste.Id, paste.Content)
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(err.Error()))
+	} else {
+		log.Debug().Msgf("Sending paste: %s", paste.Id)
+		w.Write([]byte(id))
 	}
 }
 
@@ -45,7 +51,7 @@ func (h *Handler) DeletePaste(w http.ResponseWriter, req *http.Request) {
 	if len(pasteId) > 0 {
 		err := h.PasteService.Delete(req.Context(), pasteId)
 		if err != nil {
-			log.Error().Err(err).Msgf("Failed to create paste ID: %s", pasteId)
+			log.Error().Err(err).Msgf("Failed to delete paste ID: %s", pasteId)
 			w.WriteHeader(http.StatusBadRequest)
 		} else {
 			w.Write([]byte("Deleted paste"))
