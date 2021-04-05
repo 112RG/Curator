@@ -5,7 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/112RG/Curator/injection"
+	"curator/injection"
+
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/rs/zerolog"

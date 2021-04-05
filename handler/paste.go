@@ -19,7 +19,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/112RG/Curator/model"
+	"curator/model"
+
 	"github.com/gorilla/mux"
 	gonanoid "github.com/matoous/go-nanoid/v2"
 	"github.com/rs/zerolog/log"

@@ -7,10 +7,11 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/112RG/Curator/db"
-	"github.com/112RG/Curator/handler"
-	"github.com/112RG/Curator/repositories"
-	"github.com/112RG/Curator/service"
+	"curator/db"
+	"curator/handler"
+	"curator/repositories"
+	"curator/service"
+
 	"github.com/gorilla/mux"
 )
 

@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	_ "github.com/112RG/Curator/testing"
+	_ "curator/testing"
 )
 
 func TestMainRoute(t *testing.T) {

@@ -4,7 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/112RG/Curator/model"
+	"curator/model"
+
 	"github.com/rs/zerolog/log"
 )
 

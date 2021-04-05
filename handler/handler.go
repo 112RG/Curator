@@ -4,7 +4,8 @@ import (
 	"net/http"
 	"text/template"
 
-	"github.com/112RG/Curator/model"
+	"curator/model"
+
 	"github.com/gorilla/mux"
 )
 

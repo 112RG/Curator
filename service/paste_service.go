@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/112RG/Curator/model"
+	"curator/model"
 )
 
 type pasteService struct {

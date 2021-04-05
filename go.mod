@@ -1,4 +1,4 @@
-module github.com/112RG/Curator
+module curator
 
 go 1.16
 
