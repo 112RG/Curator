@@ -22,6 +22,7 @@ func main() {
 	if err != nil {
 		log.Error().Err(err)
 	}
+	log.Info().Msg("Startup complete. Serving requests")
 	http.ListenAndServe(":5000", handlers.RecoveryHandler()(router))
 }
 

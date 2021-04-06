@@ -21,8 +21,7 @@ func NewPasteRepository(db *sql.DB) model.PasteRepository {
 
 func (r *pasteRepository) FindByID(ctx context.Context, Id string) (model.Paste, error) {
 	p := model.Paste{}
-	var mid sql.NullInt64
-	err := r.DB.QueryRowContext(ctx, "SELECT * FROM pastes WHERE Id=?", Id).Scan(&mid, &p.Id, &p.Expiry, &p.Title, &p.TimeCreated, &p.CreatedIp, &p.Owner, &p.Content)
+	err := r.DB.QueryRowContext(ctx, "SELECT * FROM pastes WHERE Id=?", Id).Scan(&p.Id, &p.OwnerId.String, &p.Expiry, &p.Title, &p.TimeCreated, &p.Content)
 	if err != nil {
 		log.Error().Err(err).Msgf("Unable to find paste ID: %s", Id)
 		return p, err
@@ -37,7 +36,7 @@ func (r *pasteRepository) CreatePaste(ctx context.Context, paste model.Paste) er
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to prepare SQL statement for ID: %s CONTENT: %s", paste.Id, paste.Content)
 	} else {
-		_, err = statement.ExecContext(ctx, paste.Id, paste.Content, paste.TimeCreated, paste.CreatedIp, paste.Title.String, paste.Owner.String)
+		_, err = statement.ExecContext(ctx, paste.Id, paste.OwnerId.String, paste.Title.String, paste.TimeCreated, paste.Content)
 	}
 	return err
 }
@@ -61,9 +60,8 @@ func (r *pasteRepository) FindByOwner(ctx context.Context, Owner string) (p []*m
 	}
 	defer rows.Close()
 	for rows.Next() {
-		var mid sql.NullInt64
 		paste := new(model.Paste)
-		if err := rows.Scan(&mid, &paste.Id, &paste.Expiry, &paste.Title, &paste.TimeCreated, &paste.CreatedIp, &paste.Owner, &paste.Content); err != nil {
+		if err := rows.Scan(&paste.Id, &paste.OwnerId.String, &paste.Expiry, &paste.Title, &paste.TimeCreated, &paste.Content); err != nil {
 			log.Error().Err(err).Msgf("Failed to scan row: %s", Owner)
 		} else {
 			p = append(p, paste)

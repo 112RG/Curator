@@ -23,7 +23,6 @@ func (h *Handler) GetPaste(w http.ResponseWriter, req *http.Request) {
 				"id":      paste.Id,
 				"content": paste.Content,
 				"date":    paste.TimeCreated,
-				"ip":      paste.CreatedIp,
 				"title":   paste.Title.String,
 			})
 		}

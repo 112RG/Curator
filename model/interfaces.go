@@ -8,13 +8,12 @@ import (
 
 // User ..
 type Paste struct {
-	Expiry      sql.NullInt64
+	Id          string
+	OwnerId     sql.NullString
+	Expiry      sql.NullTime
 	Title       sql.NullString
 	TimeCreated time.Time
-	CreatedIp   string
-	Owner       sql.NullString
 	Content     string
-	Id          string
 }
 
 type PasteService interface {

@@ -31,9 +31,9 @@ func (h *Handler) CreatePaste(w http.ResponseWriter, req *http.Request) {
 	paste := model.Paste{
 		Id: id, Content: req.FormValue("raw"),
 		Title:       sql.NullString{String: req.FormValue("title")},
-		Owner:       sql.NullString{String: req.FormValue("passcode")},
-		TimeCreated: time.Now(),
-		CreatedIp:   req.RemoteAddr}
+		OwnerId:     sql.NullString{String: req.FormValue("passcode")},
+		TimeCreated: time.Now()}
+
 	err := h.PasteService.Create(req.Context(), paste)
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to create paste ID: %s CONTENT: %s", paste.Id, paste.Content)
