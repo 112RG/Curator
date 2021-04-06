@@ -24,7 +24,11 @@
         <button>Remove now</button>
       </div>
       <div class="paste">
+        {{if ne .lang ""}}
         <pre class="line-numbers" data-src="plugins/toolbar/prism-toolbar.js" ><code style="font-size:16;"class="language-{{.lang}}" data-prismjs-copy="Copy the JavaScript snippet!">{{.content}}</code></pre>
+        {{else}}
+        <pre class="line-numbers" data-src="plugins/toolbar/prism-toolbar.js" ><code style="font-size:16;"class="language-none data-prismjs-copy="Copy the JavaScript snippet!">{{.content}}</code></pre>
+        {{end}}
       </div>
     </div>
   </body>
