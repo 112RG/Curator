@@ -38,7 +38,8 @@ func ConnectDB() *sql.DB {
 }
 func createPasteTable(db *sql.DB) {
 	createPasteTable := `CREATE TABLE IF NOT EXISTS pastes (
-		"paste_id" varchar(6) NOT NULL UNIQUE PRIMARY KEY,
+		"paste_id" varchar(6) NOT NULL PRIMARY KEY,
+		"album_id" varchar(10),
 		"owner_id" varchar(36),
 		"expiry" TIMESTAMP,
 		"title" TEXT,
@@ -63,7 +64,7 @@ func createPasteTable(db *sql.DB) {
 
 func createAlbumTable(db *sql.DB) {
 	createAlbumTable := `CREATE TABLE IF NOT EXISTS albums (
-		"album_id" varchar(10) NOT NULL UNIQUE PRIMARY KEY,
+		"album_id" varchar(10) NOT NULL PRIMARY KEY,
 		"owner_id" varchar(36) NOT NULL,
 		"title" TEXT NOT NULL
 	);`
@@ -83,7 +84,7 @@ func createAlbumTable(db *sql.DB) {
 }
 func createUserTable(db *sql.DB) {
 	createUserTable := `CREATE TABLE IF NOT EXISTS users (
-		"user_id" varchar(6) NOT NULL UNIQUE PRIMARY KEY,
+		"user_id" varchar(6) NOT NULL PRIMARY KEY,
 		"username" varchar(20) NOT NULL,
 		"password" TEXT NOT NULL
 	  );`
