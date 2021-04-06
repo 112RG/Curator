@@ -41,6 +41,7 @@ func createPasteTable(db *sql.DB) {
 		"paste_id" varchar(6) NOT NULL PRIMARY KEY,
 		"album_id" varchar(10),
 		"owner_id" varchar(36),
+		"lang" varchar(10),
 		"expiry" TIMESTAMP,
 		"title" TEXT,
 		"time_created" TIMESTAMP,

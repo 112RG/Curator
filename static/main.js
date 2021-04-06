@@ -61,7 +61,7 @@ var languages = {
   "fsharp": "F#",
   "firestore-security-rules": "Firestore security rules",
   "ftl": "FreeMarker Template Language",
-  "golang": "Go",
+  "go": "Go",
   "gml": "GameMaker Language",
   "go, golang": "GameMaker Language",
   "gcode": "G-code",
@@ -211,8 +211,16 @@ var languages = {
   "yang": "YANG"
 }
 window.onload = function () {
-
+/*   var select = document.getElementById('lang')
+  for (const lang in languages) {
+    option = document.createElement('option');
+    option.setAttribute('value', lang);
+    option.appendChild(document.createTextNode(languages[lang]));
+    select.appendChild(option);
+    //console.log(`<option id='${lang}' value='${languages[lang]}'></option>`)
+  } */
   attachFormSubmitEvent("upload")
+  
 }
 function formSubmit(event) {
   var url = "/api/paste";

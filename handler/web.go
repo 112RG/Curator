@@ -24,6 +24,7 @@ func (h *Handler) GetPaste(w http.ResponseWriter, req *http.Request) {
 				"content": paste.Content,
 				"date":    paste.TimeCreated,
 				"title":   paste.Title.String,
+				"lang":    paste.Lang,
 			})
 		}
 	}

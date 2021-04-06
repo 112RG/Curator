@@ -32,6 +32,7 @@ func (h *Handler) CreatePaste(w http.ResponseWriter, req *http.Request) {
 		Id: id, Content: req.FormValue("raw"),
 		Title:       sql.NullString{String: req.FormValue("title")},
 		OwnerId:     sql.NullString{String: req.FormValue("passcode")},
+		Lang:        req.FormValue("lang"),
 		TimeCreated: time.Now()}
 
 	err := h.PasteService.Create(req.Context(), paste)

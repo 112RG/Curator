@@ -10,7 +10,9 @@ import (
 type Paste struct {
 	Id          string
 	OwnerId     sql.NullString
+	AlbumId     sql.NullString
 	Expiry      sql.NullTime
+	Lang        string
 	Title       sql.NullString
 	TimeCreated time.Time
 	Content     string

@@ -21,7 +21,7 @@ func NewPasteRepository(db *sql.DB) model.PasteRepository {
 
 func (r *pasteRepository) FindByID(ctx context.Context, Id string) (model.Paste, error) {
 	p := model.Paste{}
-	err := r.DB.QueryRowContext(ctx, "SELECT * FROM pastes WHERE paste_id=?", Id).Scan(&p.Id, &p.OwnerId, &p.Expiry, &p.Title, &p.TimeCreated, &p.Content)
+	err := r.DB.QueryRowContext(ctx, "SELECT * FROM pastes WHERE paste_id=?", Id).Scan(&p.Id, &p.AlbumId, &p.OwnerId, &p.Lang, &p.Expiry, &p.Title, &p.TimeCreated, &p.Content)
 	if err != nil {
 		log.Error().Err(err).Msgf("Unable to find paste ID: %s", Id)
 		return p, err
@@ -35,11 +35,11 @@ func (r *pasteRepository) CreatePaste(ctx context.Context, paste model.Paste) er
 	log.Debug().Msg(paste.Title.String)
 	log.Debug().Msg(paste.Expiry.Time.String())
 
-	statement, err := r.DB.PrepareContext(ctx, `INSERT INTO pastes(paste_id, owner_id, expiry, title, time_created, content) VALUES (?, ?, ?, ?, ?, ?)`)
+	statement, err := r.DB.PrepareContext(ctx, `INSERT INTO pastes(paste_id, owner_id, album_id, lang, expiry, title, time_created, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to prepare SQL statement for ID: %s CONTENT: %s", paste.Id, paste.Content)
 	} else {
-		_, err = statement.ExecContext(ctx, paste.Id, NewNullString(paste.OwnerId.String), paste.Expiry.Time, paste.Title, paste.TimeCreated, paste.Content)
+		_, err = statement.ExecContext(ctx, paste.Id, NewNullString(paste.OwnerId.String), NewNullString(paste.AlbumId.String), paste.Lang, paste.Expiry.Time, paste.Title, paste.TimeCreated, paste.Content)
 	}
 	return err
 }
