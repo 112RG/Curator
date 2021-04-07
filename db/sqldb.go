@@ -48,7 +48,7 @@ func createPasteTable(db *sql.DB) {
 		"content" TEXT NOT NULL
 	  );`
 
-	createPasteTableIndex := `CREATE UNIQUE INDEX IF NOT EXISTS pastes_owner_id ON pastes (owner_id);`
+	createPasteTableIndex := `CREATE INDEX IF NOT EXISTS pastes_owner_id ON pastes (owner_id);`
 
 	create, err := db.Prepare(createPasteTable)
 	if err != nil {

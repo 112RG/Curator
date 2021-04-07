@@ -39,7 +39,7 @@ func (r *pasteRepository) CreatePaste(ctx context.Context, paste model.Paste) er
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to prepare SQL statement for ID: %s CONTENT: %s", paste.Id, paste.Content)
 	} else {
-		_, err = statement.ExecContext(ctx, paste.Id, NewNullString(paste.OwnerId.String), NewNullString(paste.AlbumId.String), paste.Lang, paste.Expiry.Time, paste.Title, paste.TimeCreated, paste.Content)
+		_, err = statement.ExecContext(ctx, paste.Id, NewNullString(paste.OwnerId.String), NewNullString(paste.AlbumId.String), paste.Lang, paste.Expiry.Time, NewNullString(paste.Title.String), paste.TimeCreated, paste.Content)
 	}
 	return err
 }

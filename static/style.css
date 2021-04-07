@@ -34,7 +34,7 @@ pre {
   background: #23241f;
 }
 .bar {
-  opacity: .5;
+  opacity: .6;
   box-sizing: border-box;
   padding: 0.5rem;
   background-color: var(--color1);

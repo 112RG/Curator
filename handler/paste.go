@@ -27,14 +27,16 @@ import (
 )
 
 func (h *Handler) CreatePaste(w http.ResponseWriter, req *http.Request) {
+	isLoggedin, session := h.checkLogin(w, req)
 	id, _ := gonanoid.New(5)
 	paste := model.Paste{
 		Id: id, Content: req.FormValue("raw"),
 		Title:       sql.NullString{String: req.FormValue("title")},
-		OwnerId:     sql.NullString{String: req.FormValue("passcode")},
 		Lang:        req.FormValue("lang"),
 		TimeCreated: time.Now()}
-
+	if isLoggedin {
+		paste.OwnerId = sql.NullString{String: session.Values["username"].(string)}
+	}
 	err := h.PasteService.Create(req.Context(), paste)
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to create paste ID: %s CONTENT: %s", paste.Id, paste.Content)

@@ -20,8 +20,9 @@
     <!-- <script>hljs.initLineNumbersOnLoad();</script> -->
     <div class="main">
       <div class="bar">
-        <a>Created: <a class="var">{{.date}}</a> {{if ne .title ""}} | Titled: <a class="var">{{.title}}</a> {{end}} </a>
-        <button>Remove now</button>
+        <a>Created: <a class="var">{{.date}}</a></a> 
+        {{if ne .title ""}} <a> | Titled: <a class="var">{{.title}}</a></a> {{end}}
+        {{if ne .owner ""}} <a> | Owner: <a class="var">{{.owner}}</a></a> {{end}}  
       </div>
       <div class="paste">
         {{if ne .lang ""}}
