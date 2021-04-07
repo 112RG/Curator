@@ -23,7 +23,7 @@
         <a>Created: <a class="var">{{.date}}</a></a> 
         {{if ne .title ""}} <a> | Titled: <a class="var">{{.title}}</a></a> {{end}}
         {{if ne .owner ""}} <a> | Owner: <a class="var">{{.owner}}</a></a> {{end}}
-        {{if ne .candelete "cant"}} <a> | <button onclick="deletePaste()">Delete</button> </a></a> {{end}}
+        {{if ne .candelete "cant"}} <a>| <button onclick="deletePaste()">Delete</button> </a></a> {{end}}
       </div>
       <div class="paste">
         {{if ne .lang ""}}

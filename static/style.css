@@ -55,7 +55,6 @@ input {
 button {
   box-sizing: border-box;
   border: .0625rem solid var(--color3);
-  padding: .3rem 1.4rem;
   margin: 0 .2rem;
   background: var(--color1);
   color: var(--color2);
