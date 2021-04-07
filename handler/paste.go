@@ -51,13 +51,29 @@ func (h *Handler) CreatePaste(w http.ResponseWriter, req *http.Request) {
 func (h *Handler) DeletePaste(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	pasteId := vars["pId"]
+	isLoggedin, session := h.checkLogin(w, req)
 	if len(pasteId) > 0 {
-		err := h.PasteService.Delete(req.Context(), pasteId)
-		if err != nil {
-			log.Error().Err(err).Msgf("Failed to delete paste ID: %s", pasteId)
-			w.WriteHeader(http.StatusBadRequest)
+		if isLoggedin {
+			paste, err := h.PasteService.Get(req.Context(), pasteId)
+			if err != nil {
+				log.Error().Err(err).Msgf("Failed to delete paste ID: %s", pasteId)
+				w.WriteHeader(http.StatusBadRequest)
+			}
+			if session.Values["username"].(string) == paste.OwnerId.String {
+				err := h.PasteService.Delete(req.Context(), pasteId)
+				if err != nil {
+					log.Error().Err(err).Msgf("Failed to delete paste ID: %s", pasteId)
+					w.WriteHeader(http.StatusBadRequest)
+				} else {
+					w.Write([]byte("Deleted paste"))
+				}
+			} else {
+				log.Debug().Msg("Invalid paste owner")
+				w.WriteHeader(http.StatusUnauthorized)
+			}
 		} else {
-			w.Write([]byte("Deleted paste"))
+			log.Debug().Msg("Invalid paste owner")
+			w.WriteHeader(http.StatusUnauthorized)
 		}
 	}
 }
