@@ -21,14 +21,21 @@ func (h *Handler) GetPaste(w http.ResponseWriter, req *http.Request) {
 		} else {
 			log.Debug().Msg(paste.OwnerId.String)
 			log.Debug().Msg(paste.Title.String)
-
+			var candelete = "cant"
+			isLoggedin, session := h.checkLogin(w, req)
+			if isLoggedin {
+				if session.Values["username"].(string) == paste.OwnerId.String {
+					candelete = "can"
+				}
+			}
 			h.TemplateService.ExecuteTemplate(w, "paste.html", map[string]interface{}{
-				"id":      paste.Id,
-				"content": paste.Content,
-				"owner":   paste.OwnerId.String,
-				"date":    paste.TimeCreated,
-				"title":   paste.Title.String,
-				"lang":    paste.Lang,
+				"id":        paste.Id,
+				"content":   paste.Content,
+				"owner":     paste.OwnerId.String,
+				"date":      paste.TimeCreated,
+				"candelete": candelete,
+				"title":     paste.Title.String,
+				"lang":      paste.Lang,
 			})
 		}
 	}
