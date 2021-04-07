@@ -7,12 +7,14 @@ import (
 	"curator/model"
 
 	"github.com/gorilla/mux"
+	"github.com/michaeljs1990/sqlitestore"
 )
 
 // Handler struct holds required services for handler to function
 type Handler struct {
 	PasteService    model.PasteService
 	TemplateService *template.Template
+	SessionService  *sqlitestore.SqliteStore
 }
 
 // Config will hold services that will eventually be injected into this
@@ -21,6 +23,7 @@ type Config struct {
 	R               *mux.Router
 	PasteService    model.PasteService
 	TemplateService *template.Template
+	SessionService  *sqlitestore.SqliteStore
 }
 
 // NewHandler initializes the handler with required injected services along with http routes
@@ -31,7 +34,10 @@ func NewHandler(c *Config) {
 	h := &Handler{
 		PasteService:    c.PasteService,
 		TemplateService: c.TemplateService,
+		SessionService:  c.SessionService,
 	}
+	c.R.HandleFunc("/login", h.GetLogin).Methods("GET")
+	c.R.HandleFunc("/login", h.PostLogin).Methods("POST")
 
 	c.R.HandleFunc("/", h.GetIndex).Methods("GET")
 

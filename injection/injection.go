@@ -13,6 +13,7 @@ import (
 	"curator/service"
 
 	"github.com/gorilla/mux"
+	"github.com/michaeljs1990/sqlitestore"
 )
 
 func Inject() (*mux.Router, error) {
@@ -23,6 +24,10 @@ func Inject() (*mux.Router, error) {
 		PasteRepository: pasteRepository,
 	})
 
+	sessionStore, err := sqlitestore.NewSqliteStore("./sessions.db", "sessions", "/", 3600, []byte("<SecretKey>"))
+	if err != nil {
+		panic(err)
+	}
 	router := mux.NewRouter()
 
 	templates := ParseTemplates()
@@ -30,6 +35,7 @@ func Inject() (*mux.Router, error) {
 		R:               router,
 		PasteService:    pasteService,
 		TemplateService: templates,
+		SessionService:  sessionStore,
 	})
 
 	return router, nil

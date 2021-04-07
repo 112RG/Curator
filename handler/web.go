@@ -41,5 +41,12 @@ func (h *Handler) GetPasteRaw(w http.ResponseWriter, req *http.Request) {
 	w.Write([]byte(paste.Content))
 }
 func (h *Handler) GetIndex(w http.ResponseWriter, req *http.Request) {
-	h.TemplateService.ExecuteTemplate(w, "index.html", map[string]interface{}{})
+	isLoggedIn, session := h.checkLogin(w, req)
+	if isLoggedIn {
+		h.TemplateService.ExecuteTemplate(w, "index.html", map[string]interface{}{
+			"username": session.Values["username"],
+		})
+	} else {
+		h.TemplateService.ExecuteTemplate(w, "index.html", map[string]interface{}{})
+	}
 }
