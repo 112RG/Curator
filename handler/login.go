@@ -24,10 +24,10 @@ func (h *Handler) PostLogin(w http.ResponseWriter, req *http.Request) {
 		session.Values["loggedin"] = "true"
 		session.Values["username"] = req.FormValue("username")
 		session.Save(req, w)
-		http.Redirect(w, req, "/", 302)
+		http.Redirect(w, req, "/", http.StatusFound)
 	} else {
 		log.Debug().Msg("Logged in")
-		http.Redirect(w, req, "/", 302)
+		http.Redirect(w, req, "/", http.StatusFound)
 	}
 
 }
