@@ -19,11 +19,17 @@
     <!-- <script>hljs.initHighlightingOnLoad();</script> -->
     <!-- <script>hljs.initLineNumbersOnLoad();</script> -->
     <div class="main">
-      <div class="bar">
-        <a>Created: <a class="var">{{.date}}</a></a> 
-        {{if ne .title ""}} <a> | Titled: <a class="var">{{.title}}</a></a> {{end}}
-        {{if ne .owner ""}} <a> | Owner: <a class="var">{{.owner}}</a></a> {{end}}
-        {{if ne .candelete "cant"}} <a>| <button onclick="deletePaste()">Delete</button> </a></a> {{end}}
+      <div class="container">
+        <div class="home">
+          <!-- This is unfriendly to screen readers. Sorry but I am lazy-->
+          <button onclick="window.location.href='/'">Home</button>
+        </div>
+        <div class="bar">
+          <a>Created: <a class="var">{{.date}}</a></a> 
+          {{if ne .title ""}} <a> | Titled: <a class="var">{{.title}}</a></a> {{end}}
+          {{if ne .owner ""}} <a> | Owner: <a class="var">{{.owner}}</a></a> {{end}}
+          {{if ne .candelete "cant"}} <a>| <button onclick="deletePaste()">Delete</button> </a></a> {{end}}
+        </div>
       </div>
       <div class="paste">
         {{if ne .lang ""}}
