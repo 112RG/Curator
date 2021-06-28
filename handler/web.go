@@ -58,6 +58,8 @@ func (h *Handler) GetIndex(w http.ResponseWriter, req *http.Request) {
 			"username": session.Values["username"],
 		})
 	} else {
-		h.TemplateService.ExecuteTemplate(w, "index.html", map[string]interface{}{})
+		h.TemplateService.ExecuteTemplate(w, "index.html", map[string]interface{}{
+			"username": "",
+		})
 	}
 }
