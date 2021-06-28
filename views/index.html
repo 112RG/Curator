@@ -161,7 +161,10 @@
             <option value="xojo">Xojo (REALbasic)</option>
             <option value="xquery">XQuery</option>
             <option value="yaml">YAML</option>
-          </select>
+          </select> 
+          {{ if ne .username "" }} 
+          <a style="margin-left: 5px;">| Logged in as: <a class="var">{{.username}}</a> </a>
+          {{ end }}
         </div>
         <textarea style="margin:.5em 0" name="raw" id="raw" spellcheck="false" placeholder="Enter code to paste."></textarea>
         <div class="bar">
