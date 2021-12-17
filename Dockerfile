@@ -1,5 +1,4 @@
-FROM golang:1.15.3-alpine3.12
-
+FROM golang:1.16.5-alpine3.14
 
 WORKDIR /go/src/curator
 RUN apk update && apk add automake build-base
