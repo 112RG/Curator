@@ -15,6 +15,7 @@ import (
 )
 
 func main() {
+	port := "5000"
 	log.Logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).With().
 		Timestamp().Logger()
 	router, err := injection.Inject()
@@ -22,8 +23,8 @@ func main() {
 	if err != nil {
 		log.Error().Err(err)
 	}
-	log.Info().Msg("Startup complete. Serving requests")
-	http.ListenAndServe(":5000", handlers.RecoveryHandler()(router))
+	log.Info().Msg("Startup complete. Serving requests on port " + port)
+	http.ListenAndServe(":"+port, handlers.RecoveryHandler()(router))
 }
 
 func configureLogHandler(r *mux.Router) {
