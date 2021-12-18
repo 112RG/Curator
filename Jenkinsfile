@@ -11,7 +11,7 @@ node {
   }
   stage('Build image'){
     echo "Git rev ${GIT_COMMIT}"
-    app = docker.build("ghcr.io/112RG/curator:latest_${env.BRANCH_NAME}", ". --build-arg GIT_COMMIT='${GIT_COMMIT}' --build-arg BUILD_DATE='${BUILD_DATE}'")
+    app = docker.build("ghcr.io/112rg/curator:latest_${env.BRANCH_NAME}", ". --build-arg GIT_COMMIT='${GIT_COMMIT}' --build-arg BUILD_DATE='${BUILD_DATE}'")
   }
 
   stage('Push image'){
