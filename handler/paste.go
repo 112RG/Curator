@@ -1,14 +1,13 @@
 // Package classification Paste API.
 //
-// A simple clean Paste API
+// # A simple clean Paste API
 //
 // Terms Of Service:
 //
-//     Schemes: https
-//     Host: localhost:5000
-//     Version: 0.0.1
-//     Contact: Nobdy<nobody@nobody.com>
-//
+//	Schemes: https
+//	Host: localhost:5000
+//	Version: 0.0.1
+//	Contact: Nobdy<nobody@nobody.com>
 //
 // swagger:meta
 package handler
@@ -32,6 +31,7 @@ func (h *Handler) CreatePaste(w http.ResponseWriter, req *http.Request) {
 	paste := model.Paste{
 		Id: id, Content: req.FormValue("raw"),
 		Title:       sql.NullString{String: req.FormValue("title")},
+		OwnerId:     sql.NullString{String: req.FormValue("passcode")},
 		Lang:        req.FormValue("lang"),
 		TimeCreated: time.Now()}
 	if isLoggedin {
@@ -78,7 +78,7 @@ func (h *Handler) DeletePaste(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-func (h *Handler) TestPaste(w http.ResponseWriter, req *http.Request) {
+func (h *Handler) GetOwnerPastes(w http.ResponseWriter, req *http.Request) {
 	vars := mux.Vars(req)
 	ownerId := vars["OId"]
 

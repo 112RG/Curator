@@ -57,7 +57,7 @@ func (r *pasteRepository) DeleteByID(ctx context.Context, Id string) error {
 }
 
 func (r *pasteRepository) FindByOwner(ctx context.Context, Owner string) (p []*model.Paste, err error) {
-	rows, err := r.DB.QueryContext(ctx, "SELECT * FROM pastes WHERE Owner=?", Owner)
+	rows, err := r.DB.QueryContext(ctx, "SELECT * FROM pastes WHERE owner_id=?", Owner)
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to query db PARAM: %s", Owner)
 		return nil, err
@@ -65,7 +65,7 @@ func (r *pasteRepository) FindByOwner(ctx context.Context, Owner string) (p []*m
 	defer rows.Close()
 	for rows.Next() {
 		paste := new(model.Paste)
-		if err := rows.Scan(&paste.Id, &paste.OwnerId.String, &paste.Expiry, &paste.Title, &paste.TimeCreated, &paste.Content); err != nil {
+		if err := rows.Scan(&paste.Id, &paste.AlbumId, &paste.OwnerId, &paste.Lang, &paste.Expiry, &paste.Title, &paste.TimeCreated, &paste.Content); err != nil {
 			log.Error().Err(err).Msgf("Failed to scan row: %s", Owner)
 		} else {
 			p = append(p, paste)

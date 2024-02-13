@@ -43,7 +43,7 @@ func NewHandler(c *Config) {
 
 	c.R.HandleFunc("/{pId}", h.GetPaste).Methods("GET")
 	c.R.HandleFunc("/{pId}/raw", h.GetPasteRaw).Methods("GET")
-	c.R.HandleFunc("/{OId}/pastes", h.TestPaste).Methods("GET")
+	c.R.HandleFunc("/{OId}/pastes", h.GetOwnerPastes).Methods("GET")
 
 	c.R.HandleFunc("/favicon.ico", faviconHandler)
 	c.R.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
