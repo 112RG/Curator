@@ -22,7 +22,7 @@ FROM alpine
 WORKDIR /app
 COPY --from=flyio/litefs:0.5 /usr/local/bin/litefs /usr/local/bin/litefs
 COPY --from=build /go/src/curator/docker-config/etc/litefs.static-lease.yml /tmp
-COPY --from=build /go/src/curator/litefs.yml /etc
+COPY --from=build /go/src/curator/docker-config/litefs.yml /etc
 COPY --from=build /go/src/curator/curator /app/curator
 COPY --from=build /go/src/curator/views /app/views
 COPY --from=build /go/src/curator/favicon.ico /app/favicon.ico
