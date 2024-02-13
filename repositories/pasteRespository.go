@@ -43,6 +43,7 @@ func (r *pasteRepository) CreatePaste(ctx context.Context, paste model.Paste) er
 	}
 	return err
 }
+
 func (r *pasteRepository) DeleteByID(ctx context.Context, Id string) error {
 	statement, err := r.DB.Prepare(`DELETE FROM pastes WHERE paste_id=?`)
 	if err != nil {
@@ -72,6 +73,7 @@ func (r *pasteRepository) FindByOwner(ctx context.Context, Owner string) (p []*m
 	}
 	return p, err
 }
+
 func NewNullString(s string) sql.NullString {
 	if len(s) == 0 {
 		return sql.NullString{}

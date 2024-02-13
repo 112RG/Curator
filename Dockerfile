@@ -1,4 +1,4 @@
-FROM golang:1.16.5-alpine3.14 as build
+FROM golang:1.21-alpine as build
 
 WORKDIR /go/src/curator
 RUN apk update && apk add automake build-base
@@ -18,13 +18,18 @@ ENV BUILD_DATE=$BUILD_DATE
 
 RUN go build -o curator .
 
-FROM alpine:3.14
+FROM alpine
 WORKDIR /app
+COPY --from=flyio/litefs:0.5 /usr/local/bin/litefs /usr/local/bin/litefs
+COPY --from=build /go/src/curator/docker-config/etc/litefs.static-lease.yml /tmp
+COPY --from=build /go/src/curator/litefs.yml /etc
 COPY --from=build /go/src/curator/curator /app/curator
 COPY --from=build /go/src/curator/views /app/views
 COPY --from=build /go/src/curator/favicon.ico /app/favicon.ico
 COPY --from=build /go/src/curator/static /app/static
 
+
+RUN apk add ca-certificates fuse3 sqlite
+
 ENV GIN_MODE=release
-EXPOSE 9999
-CMD ["./curator"]
+ENTRYPOINT litefs mount

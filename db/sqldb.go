@@ -9,33 +9,47 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func ConnectDB() *sql.DB {
-	var err error
-	if _, err := os.Stat("./curator.db"); os.IsNotExist(err) {
+func ConnectDB(dbPath *string) *sql.DB {
+	if *dbPath == "" {
+		log.Error().Msg("Please provide -dsn")
+		os.Exit(1)
+	}
+
+	if _, err := os.Stat(*dbPath); os.IsNotExist(err) {
 		log.Info().Msg("Creating curator.db...")
 
-		file, err := os.Create("./curator.db") // Create SQLite file
-		if err != nil {
+		if err := createSQLiteFile(*dbPath); err != nil {
 			log.Error().Err(err)
 		}
-		file.Close()
-		db, err := sql.Open("sqlite3", "./curator.db")
-		if err != nil {
-			panic(err.Error())
-		}
-		createPasteTable(db)
-		createUserTable(db)
-		createAlbumTable(db)
+
 		log.Info().Msg("Created curator.db")
-
 	}
-	db, err := sql.Open("sqlite3", "./curator.db")
+
+	db, err := sql.Open("sqlite3", *dbPath)
 	if err != nil {
-		panic(err.Error())
+		log.Panic().Err(err).Msg("Failed to connect to the database")
 	}
-	return db
 
+	initializeDatabaseTables(db)
+
+	return db
 }
+
+func createSQLiteFile(filePath string) error {
+	file, err := os.Create(filePath)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	return nil
+}
+
+func initializeDatabaseTables(db *sql.DB) {
+	createPasteTable(db)
+	createUserTable(db)
+	createAlbumTable(db)
+}
+
 func createPasteTable(db *sql.DB) {
 	createPasteTable := `CREATE TABLE IF NOT EXISTS pastes (
 		"paste_id" varchar(6) NOT NULL PRIMARY KEY,

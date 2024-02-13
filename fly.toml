@@ -1,0 +1,31 @@
+# fly.toml app configuration file generated for curator-paste on 2024-02-13T20:11:22+11:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'curator-paste'
+primary_region = 'syd'
+
+[build]
+
+[http_service]
+  internal_port = 8081
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 256
+
+[services.concurrency]
+  type = "requests"
+  hard_limit = 25
+  soft_limit = 20
+
+[mounts]
+  source = "litefs"
+  destination = "/var/lib/litefs"

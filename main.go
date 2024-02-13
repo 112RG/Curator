@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"net/http"
 	"os"
 	"time"
@@ -14,8 +15,14 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+// Command line flags.
+var (
+	addr = flag.String("addr", ":8080", "bind address")
+)
+
 func main() {
-	port := "5000"
+	flag.Parse()
+
 	log.Logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).With().
 		Timestamp().Logger()
 	router, err := injection.Inject()
@@ -23,8 +30,13 @@ func main() {
 	if err != nil {
 		log.Error().Err(err)
 	}
-	log.Info().Msg("Startup complete. Serving requests on port " + port)
-	http.ListenAndServe(":"+port, handlers.RecoveryHandler()(router))
+	if *addr == "" {
+		log.Error().Msg("Please provide -addr")
+		os.Exit(1)
+	}
+
+	log.Info().Msg("Startup complete. Serving requests on port " + *addr)
+	http.ListenAndServe(*addr, handlers.RecoveryHandler()(router))
 }
 
 func configureLogHandler(r *mux.Router) {

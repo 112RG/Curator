@@ -1,6 +1,7 @@
 package injection
 
 import (
+	"flag"
 	"log"
 	"os"
 	"path/filepath"
@@ -16,8 +17,14 @@ import (
 	"github.com/michaeljs1990/sqlitestore"
 )
 
+// Command line flags.
+var (
+	dsn = flag.String("dsn", "", "datasource name")
+)
+
 func Inject() (*mux.Router, error) {
-	db := db.ConnectDB()
+	flag.Parse()
+	db := db.ConnectDB(dsn)
 
 	pasteRepository := repositories.NewPasteRepository(db)
 	pasteService := service.NewPasteService(&service.USConfig{
