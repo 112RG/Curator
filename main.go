@@ -24,7 +24,7 @@ func main() {
 	flag.Parse()
 
 	log.Logger = zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).With().
-		Timestamp().Logger()
+		Timestamp().Logger().Level(zerolog.InfoLevel)
 	router, err := injection.Inject()
 	configureLogHandler(router)
 	if err != nil {
