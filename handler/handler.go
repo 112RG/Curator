@@ -54,8 +54,8 @@ func NewHandler(c *Config) {
 	apiRouter := c.R.PathPrefix("/api").Subrouter()
 
 	// Pastes
-	apiRouter.HandleFunc("/paste", tollbooth.LimitFuncHandler(tollbooth.NewLimiter(10, &limiter.ExpirableOptions{DefaultExpirationTTL: time.Minute}), h.CreatePaste)).Methods("POST")
-	apiRouter.HandleFunc("/paste/{pId}", tollbooth.LimitFuncHandler(tollbooth.NewLimiter(10, &limiter.ExpirableOptions{DefaultExpirationTTL: time.Minute}), h.DeletePaste)).Methods("DELETE")
+	apiRouter.HandleFunc("/paste", tollbooth.LimitFuncHandler(tollbooth.NewLimiter(10, &limiter.ExpirableOptions{DefaultExpirationTTL: time.Minute}), h.CreatePaste).ServeHTTP).Methods("POST")
+	apiRouter.HandleFunc("/paste/{pId}", tollbooth.LimitFuncHandler(tollbooth.NewLimiter(10, &limiter.ExpirableOptions{DefaultExpirationTTL: time.Minute}), h.DeletePaste).ServeHTTP).Methods("DELETE")
 }
 
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
