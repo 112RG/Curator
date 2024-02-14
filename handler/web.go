@@ -19,8 +19,6 @@ func (h *Handler) GetPaste(w http.ResponseWriter, req *http.Request) {
 			w.WriteHeader(http.StatusNotFound)
 			h.TemplateService.ExecuteTemplate(w, "error.html", map[string]interface{}{})
 		} else {
-			log.Debug().Msg(paste.OwnerId.String)
-			log.Debug().Msg(paste.Title.String)
 			var candelete = "cant"
 			isLoggedin, session := h.checkLogin(w, req)
 			if isLoggedin {

@@ -32,9 +32,6 @@ func (r *pasteRepository) FindByID(ctx context.Context, Id string) (model.Paste,
 }
 
 func (r *pasteRepository) CreatePaste(ctx context.Context, paste model.Paste) error {
-	log.Debug().Msg(paste.Title.String)
-	log.Debug().Msg(paste.Expiry.Time.String())
-
 	statement, err := r.DB.PrepareContext(ctx, `INSERT INTO pastes(paste_id, owner_id, album_id, lang, expiry, title, time_created, content) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
 	if err != nil {
 		log.Error().Err(err).Msgf("Failed to prepare SQL statement for ID: %s CONTENT: %s", paste.Id, paste.Content)
