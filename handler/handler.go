@@ -3,9 +3,12 @@ package handler
 import (
 	"net/http"
 	"text/template"
+	"time"
 
 	"curator/model"
 
+	"github.com/didip/tollbooth"
+	"github.com/didip/tollbooth/limiter"
 	"github.com/gorilla/mux"
 	"github.com/michaeljs1990/sqlitestore"
 )
@@ -47,14 +50,14 @@ func NewHandler(c *Config) {
 
 	c.R.HandleFunc("/favicon.ico", faviconHandler)
 	c.R.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
-	c.R.PathPrefix("/swaggerui/").Handler(http.StripPrefix("/swaggerui/", http.FileServer(http.Dir("./swaggerui/"))))
 
 	apiRouter := c.R.PathPrefix("/api").Subrouter()
+
 	// Pastes
-	apiRouter.HandleFunc("/paste", h.CreatePaste).Methods("POST")
-	apiRouter.HandleFunc("/paste/{pId}", h.DeletePaste).Methods("DELETE")
+	apiRouter.HandleFunc("/paste", tollbooth.LimitFuncHandler(tollbooth.NewLimiter(10, &limiter.ExpirableOptions{DefaultExpirationTTL: time.Minute}), h.CreatePaste)).Methods("POST")
+	apiRouter.HandleFunc("/paste/{pId}", tollbooth.LimitFuncHandler(tollbooth.NewLimiter(10, &limiter.ExpirableOptions{DefaultExpirationTTL: time.Minute}), h.DeletePaste)).Methods("DELETE")
 }
 
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./favicon.ico")
+	http.ServeFile(w, r, "./static/favicon.ico")
 }

@@ -1,15 +1,3 @@
-// Package classification Paste API.
-//
-// # A simple clean Paste API
-//
-// Terms Of Service:
-//
-//	Schemes: https
-//	Host: localhost:5000
-//	Version: 0.0.1
-//	Contact: Nobdy<nobody@nobody.com>
-//
-// swagger:meta
 package handler
 
 import (

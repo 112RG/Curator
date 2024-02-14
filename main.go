@@ -53,5 +53,4 @@ func configureLogHandler(r *mux.Router) {
 	r.Use(hlog.RemoteAddrHandler("ip"))
 	r.Use(hlog.UserAgentHandler("user_agent"))
 	r.Use(hlog.RefererHandler("referer"))
-	//r.Use(hlog.RequestIDHandler("req_id", "X-Request-Id"))
 }

@@ -14,12 +14,14 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/didip/tollbooth/v7 v7.0.1 // indirect
 	github.com/felixge/httpsnoop v1.0.4 // indirect
+	github.com/go-pkgz/expirable-cache v0.1.0 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/rs/xid v1.5.0 // indirect
-	github.com/stretchr/testify v1.7.0 // indirect
+	github.com/stretchr/testify v1.7.1 // indirect
 	golang.org/x/sys v0.17.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )

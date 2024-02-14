@@ -8,7 +8,6 @@ import (
 )
 
 func (h *Handler) GetPaste(w http.ResponseWriter, req *http.Request) {
-
 	vars := mux.Vars(req)
 	pasteId := vars["pId"]
 
