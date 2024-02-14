@@ -25,7 +25,6 @@ COPY --from=build /go/src/curator/docker-config/etc/litefs.static-lease.yml /tmp
 COPY --from=build /go/src/curator/docker-config/litefs.yml /etc
 COPY --from=build /go/src/curator/curator /app/curator
 COPY --from=build /go/src/curator/views /app/views
-COPY --from=build /go/src/curator/favicon.ico /app/favicon.ico
 COPY --from=build /go/src/curator/static /app/static
 
 
